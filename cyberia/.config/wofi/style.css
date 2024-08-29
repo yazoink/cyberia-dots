@@ -1,0 +1,33 @@
+* {
+  font-family: "Cascadia Code";
+  font-size: 16px;
+  border: none;
+  border-radius: 7.5px;
+  outline: none;
+}
+
+window {
+    margin: 3px;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#input {
+    margin: 3px;
+}
+
+#inner-box {
+    margin: 3px;
+}
+
+#outer-box {
+    margin: 3px;
+}
+
+#scroll {
+    margin: 3px;
+}
+
+#text {
+    margin: 3px;
+}

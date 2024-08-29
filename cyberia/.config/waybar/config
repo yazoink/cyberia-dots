@@ -1,0 +1,75 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 24,
+    "spacing": 5,
+
+    "modules-left": ["hyprland/workspaces", "group/usage"],
+    "modules-center": ["clock"],
+    "modules-right": ["wireplumber", "group/bat", "tray"],
+
+    "group/usage": {
+        "orientation": "horizontal",
+        "modules": ["memory", "cpu", "temperature"]
+    },
+
+    "group/bat": {
+        "orientation": "horizontal",
+        "modules": ["battery", "backlight"]
+    },
+
+    "group/net": {
+        "orientation": "horizontal",
+        "modules": ["hyprland/language", "network"]
+    },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "icon-size": 50,
+        "sort-by-number": true,
+    },
+
+    "clock": {
+        "format": "{:%d/%m/%Y | %H:%M}"
+    },
+
+    "wireplumber": {
+        "format": " {volume}%",
+        "format-muted": " {volume}%",
+        "max-volume": 100,
+        "scroll-step": 5,
+        "on-click": "pavucontrol",
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "interval": 60,
+        "format": "{icon} {capacity}%",
+        "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
+    },
+
+    "backlight": {
+        "format": " {percent}%"
+    },
+
+    "memory": {
+        "interval": 30,
+        "format": " {used:0.1f}G"
+    },
+
+    "cpu": {
+        "interval": 10,
+        "format": " {usage}% ",
+        "max-length": 10
+    },
+
+    "temperature": {
+        "format": " {temperatureC}°C"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 16
+    }
+}

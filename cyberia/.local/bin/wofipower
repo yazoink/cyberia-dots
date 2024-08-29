@@ -1,0 +1,7 @@
+chosen=$(printf "Shutdown\nReboot\nLock" | wofi --dmenu -p "Log out?")
+
+case "$chosen" in
+    "Shutdown") shutdown now;;
+    "Reboot") reboot;;
+    "Lock") hyprlock;;
+esac

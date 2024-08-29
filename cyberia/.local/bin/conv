@@ -1,0 +1,152 @@
+#!/usr/bin/env python3
+
+import sys
+import requests
+from bs4 import BeautifulSoup
+
+def main():
+    argc = len(sys.argv)
+    if argc > 5 or argc < 3:
+        help(argc)
+    if sys.argv[1] == "-e" or sys.argv[1] == "--energy":
+        UNITS = {
+            "btu": 0.00094781712,
+            "ev": 6241509343260179456,
+            "gj": 0.000000001,
+            "j": 1,
+            "kcal": 0.0002390057,
+            "cal": 0.0002390057,
+            "kj": 0.001,
+            "kwh": 0.0000002778,
+        }
+        convert(UNITS, argc)
+    elif sys.argv[1] == "-l" or sys.argv[1] == "--length":
+        UNITS = {
+            "m": 0.001,
+            "km": 0.000001,
+            "cm": 0.1,
+            "mm": 1,
+            "mi": 0.0000006214,
+            "yd": 0.0010936133,
+            "ft": 0.0032808399,
+            "in": 0.03970078740157,
+        }
+        convert(UNITS, argc)
+    elif sys.argv[1] == "-c" or sys.argv[1] == "--currency":
+        convertCurrency(argc)
+    elif sys.argv[1] == "-w" or sys.argv[1] == "--weight":
+        UNITS = {
+            "mg": 1,
+            "g": 0.001,
+            "kg": 0.000001,
+            "oz": 0.000035274,
+            "lb": 0.0000022046,
+            "st": 1.57473E-7,
+            "t": 1.102311E-9,
+        }
+        convert(UNITS, argc)
+    elif sys.argv[1] == "-v" or sys.argv[1] == "--volume":
+        UNITS = {
+            "ml": 1,
+            "l": 0.001,
+            "cup": 0.003519508,
+            "oz": 0.03519508,
+            "drop": 20,
+            "gal": 0.0002199693,
+            "pt": 0.001759754,
+            "dram": 0.2705112,
+            "tbsp": 0.05631213,
+            "tsp": 0.1689364,
+            "qt": 0.0008798771
+        }
+        convert(UNITS, argc)
+    else:
+        help(argc)
+    exit(0)
+
+def convert(UNITS, ARGC):
+    if ARGC < 5:
+        if ARGC == 2:
+            help(ARGC)
+        if ARGC == 3:
+            if sys.argv[2] == "list":
+                for k, v in UNITS.items():
+                    print(k)
+                exit(0)
+            help(ARGC)
+        elif ARGC == 4:
+            val = 1
+    else:
+        val = float(sys.argv[4])
+    for i in range(2, 4):
+        found = False
+        for k, v in UNITS.items():
+            if sys.argv[i].lower() == k:
+                found = True
+        if found == False:
+            print("error: unit \"" + sys.argv[i] + "\" not found. run \"conv -e list\" to see options.")
+            exit(1)
+    conversion = (val / UNITS[sys.argv[2].lower()]) * UNITS[sys.argv[3].lower()]
+    print(str(val) + " " + sys.argv[2].lower() + " is equal to " + str(round(conversion, 2)) + " " + sys.argv[3].lower() + ".")
+
+def convertCurrency(ARGC):
+    if ARGC < 5:
+        if sys.argv[2] == "list":
+            currencies = getCurrencies()
+            for c in currencies:
+                print(c.text)
+            exit(0)
+        if ARGC == 4:
+            val = 1
+        else:
+            help(ARGC)
+    else:
+        if sys.argv[4].replace('.', '', 1).isdigit() == False:
+            print("error: \"" + sys.argv[4] + "\" is not a numerical value.")
+            exit(1)
+        val = float(sys.argv[4])
+    currencies = getCurrencies() 
+    for i in range(2, 4):
+        found = False
+        for c in currencies:
+            if sys.argv[i].upper() == c.text:
+                found = True
+                break
+        if found == False:
+            print("error: currency \"" + sys.argv[i] + "\" not found. run \"conv -c list\" to see options.")
+            exit(1)
+    url = "https://wise.com/currency-converter/" + sys.argv[2] + "-to-" + sys.argv[3] + "-rate"
+    soup = getWebpageSoup(url)
+    equiv = soup.find('span', attrs = {'class':'text-success'})
+    conversion = val * float(equiv.text)
+    print(str(val) + " " + sys.argv[2].upper() + " is equal to " + str(round(conversion, 2)) + " " + sys.argv[3].upper() + ".")
+
+def getCurrencies():
+    url = "https://wise.com/currency-converter/currencies"
+    soup = getWebpageSoup(url)
+    currencies = soup.find_all('h5', attrs = {'class':'_currencyCard__currencyCode_angxx_1'})
+    return currencies
+
+def getWebpageSoup(URL):
+    req = requests.get(URL)
+    if req.status_code != 200:
+        print("Error: cannot connect to " + URL + ".")
+        exit(1)
+    soup = BeautifulSoup(req.content, 'html5lib')
+    return soup
+
+def help(ARGC):
+    print("conv -- yazoink 2024")
+    print("usage:")
+    print("\t conv {-c|--currency} {list|<unit> <unit> [<number>]}")
+    print("\t conv {-e|--energy} {list|<unit> <unit> [<number>]}")
+    print("\t conv {-h|--help}")
+    print("\t conv {-l|--length} {list|<unit> <unit> [<number>]}")
+    print("\t conv {-w|--weight} {list|<unit> <unit> [<number>]}")
+    print("\t conv {-v|--volume} {list|<unit> <unit> [<number>]}")
+    if ARGC == 2:
+        if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+            exit(0)
+    exit(1)
+
+main()

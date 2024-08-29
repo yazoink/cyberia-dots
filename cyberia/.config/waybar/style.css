@@ -1,0 +1,51 @@
+@define-color foreground #D4BE98;
+@define-color foreground-inactive #a89984;
+@define-color background #1d2021;
+@define-color background-alt #282828;
+
+* {
+    font-family: "Cascadia Code", "Font Awesome 6 Free";
+    font-size: 17px;
+    padding: 0;
+    margin: 0;
+}
+
+#waybar {
+    color: @foreground;
+    background-color: @background;
+}
+
+#workspaces button {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#workspaces button.visible {
+    color: @foreground-inactive;
+    background-color: @background;
+}
+
+#workspaces button.active {
+    background-color: @background-alt;
+    color: @foreground;
+    border-radius: 5px;
+}
+
+#wireplumber,
+#bat,
+#tray,
+#usage,
+#net {
+    background-color: @background-alt;
+    border-radius: 5px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-left: 0.3em;
+}
+
+#battery,
+#memory,
+#language,
+#network {
+    margin-right: 0.8em;
+}

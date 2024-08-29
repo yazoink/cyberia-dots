@@ -1,0 +1,31 @@
+#!/bin/bash
+
+SLEEPTIME=0.75
+DIR="$HOME/pic/screenshots"
+FILENAME="$DIR/$(date +%Y%m%d_%H:%M:%S_screenshot).png"
+
+fullscreen() {
+    echo fullscreen
+    sleep $SLEEPTIME
+    grim "$FILENAME"
+    notify-send -i $FILENAME "Fullscreen screenshot captured!"
+}
+
+selective() {
+    echo select
+    grim -g "$(slurp -b e3eaf699)" $FILENAME
+    notify-send -i $FILENAME "Selective screenshot captured!"
+}
+
+if [ ! -d "$DIR" ]; then
+	mkdir -p "$DIR"
+fi
+
+echo $FILENAME
+
+case $(printf "Fullscreen\nSelect\n" | wofi --dmenu -p "Screen Capture") in
+    'Fullscreen') fullscreen;;
+    'Select') selective;;
+esac
+
+exit 0

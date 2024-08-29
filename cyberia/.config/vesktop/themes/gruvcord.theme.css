@@ -1,0 +1,36 @@
+/**
+ * @name gruvcord
+ * @description Gruvbox theme for Discord
+ * @author yazoink
+ * @version 1
+ */
+
+@import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/DiscordRecolor/DiscordRecolor.css);
+
+:root {
+	--font:						Cascadia Code;					/*  General Font  */
+	--settingsicons:			1;						/*  Use Settings Icons - Settings: 1 yes, 0 no  */
+	
+	--accentcolor: 212,190,152;
+	--accentcolor2: 216,166,87;
+	--linkcolor: 216,166,87;
+	--mentioncolor: 216,166,87;
+	--successcolor:  			184,187,38;
+	--warningcolor:  			254,128,25;
+	--dangercolor:   			251,73,52;
+	
+	--textbrightest: 221,199,161;
+	--textbrighter: 221,199,161;
+	--textbright: 212,190,152;
+	--textdark: 212,190,152;
+	--textdarker: 221,199,161;
+	--textdarkest: 75,65,60;
+	
+	--backgroundaccent:  		60,56,54;
+	--backgroundprimary: 29,32,33;
+	--backgroundsecondary: 40,40,41;
+	--backgroundsecondaryalt: 40,40,40;
+	--backgroundtertiary: 29,32,33;
+	--backgroundfloating: 29,32,33;
+
+}
